@@ -51,6 +51,7 @@ export default Ember.Component.extend({
   /**
    * Update the notification panel text so that screen reader can reads out the new text
    * @param  {String} text the new text that we want screen reader to read out
+   * TODO: Need to investigate why this seems to only work on Safari Mac OS so far
    */
   updateNotificationText(text) {
     this.set('notificationText', text);
