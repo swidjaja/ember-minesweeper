@@ -3,40 +3,34 @@ import {
   CELL_ACTION_TYPES,
   CELL_GRIDS_SIZE,
   MINES_COUNT,
-  GAME_STATUS,
-  MAX_TIME_BEFORE_TIMEOUT
+  GAME_STATUS
 } from 'minesweeper-game/lib/constants';
 
 export default Ember.Service.extend({
+  timerService: Ember.inject.service(),
+  elapsedTime: Ember.computed.oneWay('timerService.elapsedTime'),
+  hasTimedOut: Ember.computed.oneWay('timerService.hasTimedOut'),
+
+  timeOutObserver: Ember.observer('hasTimedOut', function () {
+    if (this.get('hasTimedOut')) {
+     this.set('gameStatus', GAME_STATUS.OUT_OF_TIME); 
+    }
+  }),
 
   gameStatusObserver: Ember.observer('gameStatus', function () {
     const gameStatus = this.get('gameStatus');
+    const timerService = this.get('timerService');
 
     if (gameStatus === GAME_STATUS.IN_PROGRESS) {
-      this.set('timerActive', true);
-      this.incElapsedTime();
+      timerService.start();
     } else {
-      this.set('timerActive', false);
+      timerService.stop();
     }
   }),
 
   init(...args) {
     this._super(args);
     this.reset();
-  },
-
-  incElapsedTime() {
-    if (this.get('timerActive')) {
-      this.set('elapsedTime', this.get('elapsedTime') + 1);
-
-      if (this.get('elapsedTime') >= MAX_TIME_BEFORE_TIMEOUT) {
-        this.set('gameStatus', GAME_STATUS.OUT_OF_TIME);
-      } else {
-        Ember.run.later(() => {
-          this.incElapsedTime();
-        }, 1000);
-      }
-    }
   },
 
   /**
@@ -46,11 +40,13 @@ export default Ember.Service.extend({
    * 3. Initialize the grid cells
    * 4. Place the mines randomly on 10 cells
    * 5. Set the neighbor mines count for each cell
+   * 6. And, of course, reset the timer
    */
   reset() {
+    const timerService = this.get('timerService');
+
+    timerService.reset();
     this.set('gameStatus', GAME_STATUS.NOT_STARTED);
-    this.set('timerActive', false);
-    this.set('elapsedTime', 0);
     this.remainingUnrevealedCells = (CELL_GRIDS_SIZE * CELL_GRIDS_SIZE) - MINES_COUNT;
     this.initializeGridCells();
     this.placeMines();

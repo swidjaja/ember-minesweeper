@@ -15,4 +15,5 @@ export const GAME_STATUS = {
   LOST: 'lost'
 };
 
-export const MAX_TIME_BEFORE_TIMEOUT = 999;
+// Number of secs before the timer service time-outs
+export const TIMER_TIMEOUT = 999;
