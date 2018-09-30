@@ -1,9 +1,33 @@
 <h2>WELCOME TO MINESWEEPER</h2>
-<h3 class="game-page__timer">{{elapsedTime}}</h3>
 <!-- <h3>Game State: {{gameStatus}}</h3> -->
-{{grid-cells
-  gameStatus=gameStatus
-  gridCells=gridCells
-  gridCellClicked='gridCellClicked'}}
+<div class="game-page__content">
+  <div class="game-page__content--left">
+    <div class="game-page__content--header">
+      <div class="game-page__timer">{{elapsedTime}}</div>
+      <button aria-label="Restart Game" 
+        class="game-page__reset-btn {{restartButtonClass}}" {{action 'restartGame'}}>
+      </button>
+    </div>
+    <div class="game-page__content--body">
+      {{grid-cells
+        gameStatus=gameStatus
+        gridCells=gridCells
+        gridCellClicked='gridCellClicked'}}
+    </div>
+  </div>
 
-<button class="game-page__reset-btn" {{action 'restartGame'}}>Restart Game</button>
+  <div class="game-page__content--right">
+    <section class="game-page__instruction game-page__instruction--mouse">
+      <h2>Mouse users</h2>
+      <p>Left click - reveal the cell</p>
+      <p>Right click - flag the cell</p>
+    </section>
+
+    <section class="game-page__instruction game-page__instruction--keyboard">
+      <h2>Keyboard users</h2>
+      <p>Key Enter - reveal the cell</p>
+      <p>Key Enter + alt key - flag the cell</p>
+    </section>
+  </div>
+</div>
+

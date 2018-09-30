@@ -12,3 +12,18 @@
 .hide {
   display: none;
 }
+
+.bg-happy_face {
+  width: 48px; height: 48px;
+  background: url('images/css_sprites.png') -13px -10px;
+}
+
+.bg-cool_face {
+  width: 48px; height: 48px;
+  background: url('images/css_sprites.png') -81px -10px;
+}
+
+.bg-sad_face {
+  width: 48px; height: 48px;
+  background: url('images/css_sprites.png') -149px -10px;
+}
