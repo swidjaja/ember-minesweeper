@@ -1,7 +1,24 @@
-# minesweeper-game
+<h1 align="center">Minesweeper</h1>
+<p align="center">A simple implementation of Minesweeper game in Ember</p>
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+## Architecture
+There are two main Ember services in this application
+* `game-service`
+    <p>This is the service that handles the state of the game. It is responsible to initialize the minesweeper cells and to place the mines on randomly chosen cells. When player clicks on cell, the service will update the current cell state and also to reveal the neighbors of the clicked cell. The `game-service` uses the `timer-service` to keep track of elapsed time. It is responsible to mark the game as 'lost' when the timer has reached its maximum threshold (999 secs)</p>
+* `timer-service`
+    <p>This is the service that keeps track of elapsed time of an active game. Its main responsibilities are to update the elapsed time and to notify `game-service` that it has reached its maximum threshold (999 secs)</p>
+    
+There are three Ember components in this application
+* `game-page` - the main container of the application. This component is responsible to communicate with the `game-service` for updating the game state. It is also responsible to set up a global listener to listen to `alt + s` button presses to re-start the game.
+* `grid-cells` - the list of the minesweeper cells
+* `grid-cell` - the individual minesweeper cell
+
+## Accessibility Considerations
+I have attempted to make this application as accessible as possible.
+* All grid cells are `<button>` elements. Therefore, they are operatable by keyboard.
+* A `live region` has been added inside the `game-page` component so that screen reader can announce game state changes.
+* Focus and hover indicators are clearly visible.
+* cell foreground and background colors have adequate contrast.
 
 ## Prerequisites
 
@@ -10,7 +27,6 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Ember CLI](https://ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
 
 ## Installation
 
@@ -23,28 +39,7 @@ You will need the following things properly installed on your computer.
 * `ember serve`
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
-### Code Generators
-
-Make use of the many generators for code, try `ember help generate` for more details
-
 ### Running Tests
 
 * `ember test`
 * `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](http://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
