@@ -48,6 +48,38 @@ export default Ember.Component.extend({
     return elapsedTime.padStart(3, '0');
   }),
 
+  didInsertElement(...args) {
+    this._super(args);
+
+    Ember.run.scheduleOnce('afterRender', this, this.setupGlobalKeyHandler);
+  },
+
+  restartGame() {
+    const gameService = this.get('gameService');
+
+    gameService.reset();
+  },
+
+  setupGlobalKeyHandler() {
+    const globalKeyHandler = (event) => {
+      // alt + s will restart the game
+      if (event.keyCode === 83 && event.altKey) {
+        this.restartGame();
+      }
+    }
+    this.set('_globalKeyHandler', globalKeyHandler);
+
+    Ember.$(document).on('keydown', this.get('_globalKeyHandler'));
+  },
+
+  willDestroyElement(...args) {
+    this._super(args);
+
+    const globalKeyHandler = this.get('_globalKeyHandler');
+
+    Ember.$(document).off('keydown', globalKeyHandler);
+  },
+
   /**
    * Update the notification panel text so that screen reader can reads out the new text
    * @param  {String} text the new text that we want screen reader to read out
@@ -65,9 +97,7 @@ export default Ember.Component.extend({
     },
 
     restartGame() {
-      const gameService = this.get('gameService');
-
-      gameService.reset();
+      this.restartGame();
     }
   }
 });
