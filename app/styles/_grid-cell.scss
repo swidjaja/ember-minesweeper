@@ -1,0 +1,53 @@
+.grid-cell {
+  background-color: white;
+  color: blue;
+  cursor: pointer;
+
+  &--revealed {
+    background-color: rgba(225, 225, 225, 1);
+  }
+
+  &--mine-stepped {
+    background-color: rgba(252, 26, 17, 1);
+  }
+
+  &--1mines {
+    color: rgba(255, 0, 0, 1);
+  }
+
+  &--2mines {
+    color: rgba(128, 0, 128, 1);
+  }
+
+  &--3mines {
+    color: rgba(17, 138, 20, 1);
+  }
+
+  &--4mines {
+    color: rgba(102, 255, 255, 1);
+  }
+
+  &--5mines {
+    color: rgba(0, 128, 255, 1);
+  }
+
+  &--6mines {
+    color: rgba(255, 0, 255, 1);
+  }
+
+  &--7mines {
+    color: rgba(204, 0, 102, 1);
+  }
+
+  &--8mines {
+    color: rgba(204, 102, 102, 1);
+  }
+
+  margin: 5px;
+  border-radius: 5px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid black;
+  font-size: 24px;
+  line-height: 48px;
+}

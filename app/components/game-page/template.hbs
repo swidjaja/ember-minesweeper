@@ -1,0 +1,9 @@
+<h2>WELCOME TO MINESWEEPER</h2>
+<h3 class="game-page__timer">{{elapsedTime}}</h3>
+<!-- <h3>Game State: {{gameStatus}}</h3> -->
+{{grid-cells
+  gameStatus=gameStatus
+  gridCells=gridCells
+  gridCellClicked='gridCellClicked'}}
+
+<button class="game-page__reset-btn" {{action 'restartGame'}}>Restart Game</button>

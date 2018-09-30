@@ -1,0 +1,7 @@
+{{#if (and isLost hasMine)}}
+  X
+{{else if (and isRevealed neighborMineCellCount)}}
+  {{neighborMineCellCount}}
+{{else if isFlagged}}
+  F
+{{/if}}

@@ -1,0 +1,12 @@
+{{#each gridCells as | column index |}}
+  <div class="grid-cells__column grid-cells__column--{{index}}">
+    {{#each column as | cellState |}}
+      {{grid-cell 
+        gameStatus=gameStatus
+        cellState=cellState
+        gridCellClicked='gridCellClicked'}}
+    {{/each}}
+  </div>
+{{/each}}
+
+<div role="region" aria-live="polite" aria-atomic="true" class="notification-panel"></div>
