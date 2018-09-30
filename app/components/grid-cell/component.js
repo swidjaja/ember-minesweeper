@@ -2,7 +2,7 @@ import Ember from 'ember';
 import { CELL_ACTION_TYPES, GAME_STATUS } from 'minesweeper-game/lib/constants'
 
 export default Ember.Component.extend({
-  classNames: ['grid-cell'],
+  classNames: ['grid-cell', 'focusable'],
   classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass'],
   tagName: 'button',
   attributeBindings: ['_ariaLabel:aria-label'],

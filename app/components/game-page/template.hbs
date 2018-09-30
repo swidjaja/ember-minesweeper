@@ -5,7 +5,7 @@
     <div class="game-page__content--header">
       <div class="game-page__timer">{{elapsedTime}}</div>
       <button aria-label="Restart Game" 
-        class="game-page__reset-btn {{restartButtonClass}}" {{action 'restartGame'}}>
+        class="focusable game-page__reset-btn {{restartButtonClass}}" {{action 'restartGame'}}>
       </button>
     </div>
     <div class="game-page__content--body">
@@ -28,6 +28,14 @@
       <p>Key Enter - reveal the cell</p>
       <p>Key Enter + alt key - flag the cell</p>
     </section>
+
+    <section class="game-page__instruction game-page__instruction--legends">
+      <h2>Legends</h2>
+      <p>Number - number of cell neighbors that have mine</p>
+      <p>F - cell has been flagged</p>
+    </section>
   </div>
 </div>
+
+<div class="sr-only game-page__notification" aria-live="polite">{{notificationText}}</div>
 

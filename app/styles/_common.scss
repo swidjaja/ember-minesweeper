@@ -9,6 +9,12 @@
   border: 0;
 }
 
+.focusable:focus,
+.focusable:hover {
+  outline-offset: -2px;
+  outline: 2px solid blue;
+}
+
 .hide {
   display: none;
 }

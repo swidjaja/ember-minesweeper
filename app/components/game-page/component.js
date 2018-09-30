@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   gameService: Ember.inject.service(),
   gameStatus: Ember.computed.oneWay('gameService.gameStatus'),
   gridCells: Ember.computed.oneWay('gameService.gridCells'),
+  notificationText: '',
 
   restartButtonClass: Ember.computed('gameService.gameStatus', function () {
     const gameStatus = this.get('gameStatus');
@@ -24,11 +25,36 @@ export default Ember.Component.extend({
     }
   }),
 
+  gameStatusObserver: Ember.observer('gameService.gameStatus', function () {
+    const gameStatus = this.get('gameStatus');
+
+    if (gameStatus === GAME_STATUS.WIN ||
+        gameStatus === GAME_STATUS.LOST || 
+        gameStatus === GAME_STATUS.OUT_OF_TIME) {
+      this.updateNotificationText(gameStatus === GAME_STATUS.WIN ?
+        'Congratulations! You have win this game' :
+        'Sorry! But you lose the game');
+      // Move focus to restart button so that screen reader users can immediately restart
+      const restartButton = this.$('.game-page__reset-btn');
+      restartButton.focus();
+    } else if (gameStatus === GAME_STATUS.IN_PROGRESS) {
+      this.updateNotificationText('The game has started');
+    }
+  }),
+
   elapsedTime: Ember.computed('gameService.elapsedTime', function () {
     const elapsedTime = '' + this.get('gameService.elapsedTime');
 
     return elapsedTime.padStart(3, '0');
   }),
+
+  /**
+   * Update the notification panel text so that screen reader can reads out the new text
+   * @param  {String} text the new text that we want screen reader to read out
+   */
+  updateNotificationText(text) {
+    this.set('notificationText', text);
+  },
 
   actions: {
     gridCellClicked(payload) {
