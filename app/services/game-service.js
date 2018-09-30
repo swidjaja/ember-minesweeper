@@ -130,6 +130,17 @@ export default Ember.Service.extend({
 
       if (this.isWon()) {
         this.set('gameStatus', GAME_STATUS.WIN);
+      } else if (!gridCell.neighborMineCellCount) {
+        const validNeighborCells = this.getValidNeighborCells(gridCell.row, gridCell.column);
+
+        validNeighborCells.forEach((validNeighborCell) => {
+          const { rowIdx, columnIdx } = validNeighborCell;
+          const gridCells = this.get('gridCells');
+          const gridCell = gridCells[rowIdx][columnIdx];
+          if (!gridCell.hasMine && !gridCell.isRevealed) {
+            this.revealCell(gridCell);
+          }
+        });
       }
     } else {
       this.set('gameStatus', GAME_STATUS.LOST);
@@ -147,6 +158,7 @@ export default Ember.Service.extend({
       const gridCell = gridCells[row][column];
 
       if (!gridCell.hasMine) {
+        console.error(row, column);
         Ember.set(gridCell, 'hasMine', true);
         minesCount -= 1;
       }
