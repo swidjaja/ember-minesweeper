@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   classNames: ['grid-cell', 'focusable'],
   classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass'],
   tagName: 'button',
-  attributeBindings: ['_ariaLabel:aria-label'],
+  attributeBindings: ['_ariaLabel:aria-label', 'isRevealed:disabled'],
   isRevealed: Ember.computed.alias('cellState.isRevealed'),
   isFlagged: Ember.computed.alias('cellState.isFlagged'),
   hasMine: Ember.computed.alias('cellState.hasMine'),
@@ -46,7 +46,26 @@ export default Ember.Component.extend({
     return '';
   }),
 
-  _ariaLabel: 'Reveal Cell',
+  _ariaLabel: Ember.computed('isRevealed', 'isFlagged', 'neighborMineCellCount', function () {
+    const isRevealed = this.get('isRevealed');
+    const isFlagged = this.get('isFlagged');
+    const neighborMineCellCount = this.get('neighborMineCellCount');
+    const { row, column } = this.get('cellState');
+    const label = [`row ${row} column ${column}`];
+
+    if (isRevealed) {
+      label.push('revealed');
+      if (neighborMineCellCount) {
+        label.push(`${neighborMineCellCount} mines count`);
+      }
+    } else if (isFlagged) {
+      label.push('flagged');
+    } else {
+      label.push('not revealed');
+    }
+
+    return label.join(' ');
+  }),
 
   notifyCellClick(actionType) {
     const cellState = this.get('cellState');

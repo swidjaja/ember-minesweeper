@@ -10,6 +10,7 @@ export default Ember.Service.extend({
   timerService: Ember.inject.service(),
   elapsedTime: Ember.computed.oneWay('timerService.elapsedTime'),
   hasTimedOut: Ember.computed.oneWay('timerService.hasTimedOut'),
+  minesCount: MINES_COUNT,
 
   timeOutObserver: Ember.observer('hasTimedOut', function () {
     if (this.get('hasTimedOut')) {
@@ -146,7 +147,7 @@ export default Ember.Service.extend({
   // Place mine on each cell
   placeMines() {
     const gridCells = this.get('gridCells');
-    let minesCount = MINES_COUNT;
+    let minesCount = this.get('minesCount');
 
     while (minesCount > 0) {
       const row = Math.floor(Math.random() * CELL_GRIDS_SIZE);

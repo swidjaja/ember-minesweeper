@@ -11,17 +11,18 @@ const SELECTORS = {
   loseBtnRestart: '.game-page__reset-btn.bg-sad_face',
   onProgressBtnRestart: '.game-page__reset-btn.bg-happy_face',
   timer: '.game-page__timer',
+  minesCounter: '.game-page__mines-count',
   mouseUserInstruction: '.game-page__instruction--mouse',
   keyboardUserInstruction: '.game-page__instruction--keyboard',
-  legendsInstruction: '.game-page__instruction--legends',
-  notificationPanel: '.game-page__notification'
+  legendsInstruction: '.game-page__instruction--legends'
 };
 
-const constructMockedGameService = (configs) => {
-  const { gameStatus = 'not_started', elapsedTime = 1 } = configs;
+const constructMockedGameService = (configs = {}) => {
+  const { gameStatus = 'not_started', elapsedTime = 1, minesCount = 10 } = configs;
   const gameServiceMockedObject = {
     gameStatus,
     elapsedTime,
+    minesCount,
     reset: () => {},
     updateCellState: () => {}
   };
@@ -50,29 +51,6 @@ const assertRestartButtonClass = () => {
   });
 };
 
-const assertElapsedTimeValues = () => {
-  const elapsedTimes = {
-    1: '001', 
-    10: '010', 
-    100: '100'
-  };
-
-  Object.keys(elapsedTimes).forEach((elapsedTime) => {
-    it(`renders the elapsed time in correct format for elapsed time ${elapsedTime}`, function () {
-      const mockedService = constructMockedGameService({ elapsedTime });
-
-      this.register('service:gameService', mockedService);
-      this.inject.service('gameService', { as: 'gameService' });
-      this.render(hbs`{{game-page}}`);
-
-      const timerEl = this.$(SELECTORS.timer);
-
-      expect(timerEl).to.have.length(1);
-      expect(timerEl.text().trim()).to.equal(elapsedTimes[elapsedTime]);
-    });
-  });
-};
-
 describe('Integration | Component | game page', function () {
   setupComponentTest('game-page', {
     integration: true
@@ -91,9 +69,35 @@ describe('Integration | Component | game page', function () {
     expect(this.$()).to.have.length(1);
   });
 
-  assertRestartButtonClass();
+  it('renders timer with 0 elapsed time initially', function () {
+    this.render(hbs`{{game-page}}`);
 
-  assertElapsedTimeValues();
+    const timerEl = this.$(SELECTORS.timer);
+    expect(timerEl).to.have.length(1);
+    expect(timerEl.text().trim()).to.equal('0');
+  });
+
+  it('renders start button with correct label', function () {
+    this.render(hbs`{{game-page}}`);
+
+    const resetBtnEl = this.$(SELECTORS.resetBtn);
+    expect(resetBtnEl).to.have.length(1);
+    expect(resetBtnEl.attr('aria-label')).to.equal('Click to restart the game');
+  });
+
+  it('renders mines counter with 10 mines count initially', function () {
+    const mockedService = constructMockedGameService();
+
+    this.register('service:gameService', mockedService);
+    this.inject.service('gameService', { as: 'gameService' });
+    this.render(hbs`{{game-page}}`);
+
+    const minesCounterEl = this.$(SELECTORS.minesCounter);
+    expect(minesCounterEl).to.have.length(1);
+    expect(minesCounterEl.text().trim()).to.equal('10');
+  });
+
+  assertRestartButtonClass();
 
   it('renders the game instruction sections', function () {
     const mockedService = constructMockedGameService({});
@@ -105,15 +109,5 @@ describe('Integration | Component | game page', function () {
     expect(this.$(SELECTORS.mouseUserInstruction)).to.have.length(1);
     expect(this.$(SELECTORS.keyboardUserInstruction)).to.have.length(1);
     expect(this.$(SELECTORS.legendsInstruction)).to.have.length(1);
-  });
-
-  it('renders the notification panel section', function () {
-    const mockedService = constructMockedGameService({});
-
-    this.register('service:gameService', mockedService);
-    this.inject.service('gameService', { as: 'gameService' });
-    this.render(hbs`{{game-page}}`);
-
-    expect(this.$(SELECTORS.notificationPanel)).to.have.length(1);
   });
 });

@@ -26,73 +26,48 @@ describe('Unit | Component | game-page', () => {
     this.register('service:game-service', gameService);
   });
 
-  it('updates the notification text correctly for in-progress game', function () {
+  it('calls function to update restart button with correct label when game is lost', function () {
     const component = this.subject();
-    const updateNotificationTextSpy = sinon.spy();
+    const updateRestartButtonLabelSpy = sinon.spy();
 
-    component.set('updateNotificationText', updateNotificationTextSpy);
-
-    this.render();
-
-    component.set('gameStatus', 'in_progress');
-    expect(updateNotificationTextSpy.calledOnce).to.be.true;
-    const call = updateNotificationTextSpy.getCall(0);
-    expect(call.args[0]).to.equal('The game has started');
-  });
-
-  it('updates the notification text correctly for lost game', function () {
-    const component = this.subject();
-    const updateNotificationTextSpy = sinon.spy();
-
-    component.set('updateNotificationText', updateNotificationTextSpy);
+    component.set('updateRestartButtonLabel', updateRestartButtonLabelSpy);
 
     this.render();
 
     component.set('gameStatus', 'lost');
-    expect(updateNotificationTextSpy.calledOnce).to.be.true;
-    const call = updateNotificationTextSpy.getCall(0);
+    expect(updateRestartButtonLabelSpy.calledOnce).to.be.true;
+    const call = updateRestartButtonLabelSpy.getCall(0);
     expect(call.args[0]).to.equal('Sorry! But you lose the game');
   });
 
-  it('updates the notification text correctly for out-of-time game', function () {
+  it('calls function to update restart button with correct label when game times out', function () {
     const component = this.subject();
-    const updateNotificationTextSpy = sinon.spy();
+    const updateRestartButtonLabelSpy = sinon.spy();
 
-    component.set('updateNotificationText', updateNotificationTextSpy);
+    component.set('updateRestartButtonLabel', updateRestartButtonLabelSpy);
 
     this.render();
 
     component.set('gameStatus', 'out_of_time');
-    expect(updateNotificationTextSpy.calledOnce).to.be.true;
-    const call = updateNotificationTextSpy.getCall(0);
+    expect(updateRestartButtonLabelSpy.calledOnce).to.be.true;
+    const call = updateRestartButtonLabelSpy.getCall(0);
     expect(call.args[0]).to.equal('Sorry! But you lose the game');
   });
 
-  it('updates the notification text correctly for won game', function () {
+  it('calls function to update restart button with correct label when game is won', function () {
     const component = this.subject();
-    const updateNotificationTextSpy = sinon.spy();
+    const updateRestartButtonLabelSpy = sinon.spy();
 
-    component.set('updateNotificationText', updateNotificationTextSpy);
+    component.set('updateRestartButtonLabel', updateRestartButtonLabelSpy);
 
     this.render();
 
     component.set('gameStatus', 'win');
-    expect(updateNotificationTextSpy.calledOnce).to.be.true;
-    const call = updateNotificationTextSpy.getCall(0);
+    expect(updateRestartButtonLabelSpy.calledOnce).to.be.true;
+    const call = updateRestartButtonLabelSpy.getCall(0);
     expect(call.args[0]).to.equal('Congratulations! You have win this game');
   });
 
-  it('updates the notification text', function () {
-    const component = this.subject();
-
-    this.render();
-
-    component.updateNotificationText('win');
-
-    const notificationPanelEl = this.$('.game-page__notification');
-
-    expect(notificationPanelEl.text().trim()).to.equal('win');
-  });
 
   it('calls gameService reset when player restart', function () {
     const component = this.subject();

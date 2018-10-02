@@ -35,31 +35,35 @@ describe('Integration | Component | grid cell', function() {
   });
 
   it('renders', function () {
-    this.render(hbs`{{grid-cell}}`);
+    const cellState = { row: 0, column: 0 };
+    this.set('cellState', cellState);
+    this.render(hbs`{{grid-cell cellState=cellState}}`);
     expect(this.$()).to.have.length(1);
   });
 
   it('has correct focusable class', function () {
-    this.render(hbs`{{grid-cell}}`);
+    const cellState = { row: 0, column: 0 };
+    this.set('cellState', cellState);
+    this.render(hbs`{{grid-cell cellState=cellState}}`);
     expect(this.$(SELECTORS.gridCell).hasClass('focusable')).to.be.true;
   });
 
   it('uses correct cell reveal class if cell is revealed', function () {
-    const cellState = { isRevealed: true };
+    const cellState = { row: 0, column: 0, isRevealed: true };
     this.set('cellState', cellState);
     this.render(hbs`{{grid-cell cellState=cellState}}`)
     expect(this.$(SELECTORS.cellRevealed)).to.have.length(1);
   });
 
   it('uses correct cell reveal class if cell is flagged', function () {
-    const cellState = { isFlagged: true };
+    const cellState = { row: 0, column: 0, isFlagged: true };
     this.set('cellState', cellState);
     this.render(hbs`{{grid-cell cellState=cellState}}`)
     expect(this.$(SELECTORS.cellIsFlagged)).to.have.length(1);
   });
 
   it('uses correct cell reveal class if cell has mine and game is lost', function () {
-    const cellState = { hasMine: true };
+    const cellState = { row: 0, column: 0, hasMine: true };
     const gameStatus = 'lost';
     this.set('cellState', cellState)
     this.set('gameStatus', gameStatus);

@@ -13,12 +13,17 @@
     justify-content: center;
 
     &--left {
-      border:2px solid gray;
+      border: 2px solid gray;
       background-color: silver;
+      border-radius: 4px;
+    }
+
+    &--right {
+      margin-left: 15px;
     }
 
     &--left, &--right {
-      padding: 0 20px;
+      padding: 0 5px;
     }
 
     &--header {
@@ -27,7 +32,7 @@
     }
 
     &--footer, &--header, &--body {
-      margin: 10px 0;
+      margin: 5px 0;
     }
   }
 
@@ -36,7 +41,7 @@
     line-height: 48px;
     width: 48px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 4px;
     margin: 0 2px;
     border:2px solid gray;
     cursor: pointer;
@@ -50,7 +55,7 @@
     padding: 10px 0;
   }
 
-  &__timer {
+  &__timer, &__mines-count {
     background-color: black;
     color: red;
     font-size: 26px;
@@ -58,7 +63,7 @@
     height: 44px;
     display: flex;
     margin: 0 2px;
-    border-radius: 5px;
+    border-radius: 4px;
     justify-content: center;
     align-items: center;
     border: 2px solid gray;

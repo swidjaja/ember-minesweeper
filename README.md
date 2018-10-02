@@ -15,8 +15,9 @@ There are three Ember components in this application
 
 ## Accessibility Considerations
 I have attempted to make this application as accessible as possible.
-* All grid cells are `<button>` elements. Therefore, they are operatable by keyboard.
-* A `live region` has been added inside the `game-page` component so that screen reader can announce game state changes.
+* All grid cells are `<button>` elements. Therefore, they are operatable by keyboard. They also have appropriately assigned label
+* Start button has appropriate label assigned to it.
+* Elapsed timer and mines count have proper label assigned to them.
 * Focus and hover indicators are clearly visible.
 * cell foreground and background colors have adequate contrast.
 

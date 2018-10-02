@@ -2,10 +2,15 @@
 <div class="game-page__content">
   <div class="game-page__content--left">
     <div class="game-page__content--header">
-      <div class="game-page__timer">{{elapsedTime}}</div>
-      <button aria-label="Restart Game" title="Restart Game"
+      <div class="game-page__timer" aria-label="Elapsed time: {{elapsedTime}}">
+        <span aria-hidden="true">{{elapsedTime}}</span>
+      </div>
+      <button aria-label="{{restartButtonLabel}}"
         class="focusable game-page__reset-btn {{restartButtonClass}}" {{action 'restartGame'}}>
       </button>
+      <div class="game-page__mines-count" aria-label="{{minesCount}} mines">
+        <span aria-hidden="true">{{minesCount}}</span>
+      </div>
     </div>
     <div class="game-page__content--body">
       {{grid-cells
@@ -36,6 +41,3 @@
     </section>
   </div>
 </div>
-
-<div class="sr-only game-page__notification" aria-live="polite">{{notificationText}}</div>
-

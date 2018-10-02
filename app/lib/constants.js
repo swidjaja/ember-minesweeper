@@ -17,3 +17,5 @@ export const GAME_STATUS = {
 
 // Number of secs before the timer service time-outs
 export const TIMER_TIMEOUT = 999;
+
+export const DEFAULT_RESTART_BTN_LABEL = 'Click to restart the game';
