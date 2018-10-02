@@ -33,16 +33,22 @@ export default Ember.Component.extend({
     if (gameStatus === GAME_STATUS.WIN ||
         gameStatus === GAME_STATUS.LOST || 
         gameStatus === GAME_STATUS.OUT_OF_TIME) {
+
+      // Admittedly, this is a bit weird logic. What I do here is basically
+      // change the button label when player lost/win the game. This is done so that
+      // SR will read 'Congratulations! You have win this game Click to restart game'
+      // or 'Sorry! But you lose the game Click to restart game'. 
       this.updateRestartButtonLabel(gameStatus === GAME_STATUS.WIN ?
         'Congratulations! You have win this game' :
         'Sorry! But you lose the game');
-      // Move focus to restart button so that screen reader users can immediately restart
       const restartButton = this.$('.game-page__reset-btn');
 
       restartButton.on('blur', () => {
         restartButton.off('blur');
         this.updateRestartButtonLabel();
       });
+      // Move focus to restart button so that screen reader or keyboard users
+      //  can immediately restart
       restartButton.focus();
     }
   }),
