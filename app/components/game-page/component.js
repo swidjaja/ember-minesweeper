@@ -38,6 +38,11 @@ export default Ember.Component.extend({
         'Sorry! But you lose the game');
       // Move focus to restart button so that screen reader users can immediately restart
       const restartButton = this.$('.game-page__reset-btn');
+
+      restartButton.on('blur', () => {
+        restartButton.off('blur');
+        this.updateRestartButtonLabel();
+      });
       restartButton.focus();
     }
   }),
@@ -81,8 +86,8 @@ export default Ember.Component.extend({
     Ember.$(document).off('keydown', globalKeyHandler);
   },
 
-  updateRestartButtonLabel(text) {
-    this.set('restartButtonLabel', `${text}, Click to restart the game`);
+  updateRestartButtonLabel(text = '') {
+    this.set('restartButtonLabel', `${text} ${DEFAULT_RESTART_BTN_LABEL}`);
   },
 
   actions: {
