@@ -154,7 +154,7 @@ export default Ember.Service.extend({
       const gridCell = gridCells[row][column];
 
       if (!gridCell.hasMine) {
-        console.error(row, column);
+        // console.error(row, column);
         Ember.set(gridCell, 'hasMine', true);
         minesCount -= 1;
       }

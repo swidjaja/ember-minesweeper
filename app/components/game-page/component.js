@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  gameStatusObserver: Ember.observer('gameService.gameStatus', function () {
+  gameStatusObserver: Ember.observer('gameStatus', function () {
     const gameStatus = this.get('gameStatus');
 
     if (gameStatus === GAME_STATUS.WIN ||
@@ -60,6 +60,12 @@ export default Ember.Component.extend({
     gameService.reset();
   },
 
+  onGridCellClicked(payload) {
+    const gameService = this.get('gameService');
+
+    gameService.updateCellState(payload);
+  },
+
   setupGlobalKeyHandler() {
     const globalKeyHandler = (event) => {
       // alt + s will restart the game
@@ -91,9 +97,7 @@ export default Ember.Component.extend({
 
   actions: {
     gridCellClicked(payload) {
-      const gameService = this.get('gameService');
-
-      gameService.updateCellState(payload);
+      this.onGridCellClicked(payload)
     },
 
     restartGame() {

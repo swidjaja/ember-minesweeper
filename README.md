@@ -29,10 +29,9 @@ You will need the following things properly installed on your computer.
 * [Ember CLI](https://ember-cli.com/)
 
 ## Installation
-
 * `git clone <repository-url>` this repository
 * `cd minesweeper-game`
-* `npm install`
+* `yarn install`
 
 ## Running / Development
 
@@ -43,3 +42,4 @@ You will need the following things properly installed on your computer.
 
 * `ember test`
 * `ember test --server`
+* `COVERAGE=true ember test`
