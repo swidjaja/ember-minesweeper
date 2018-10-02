@@ -1,11 +1,16 @@
 import Ember from 'ember';
-import { CELL_ACTION_TYPES, GAME_STATUS } from 'minesweeper-game/lib/constants'
+import { CELL_ACTION_TYPES, GAME_STATUS, KEY_CODES } from 'minesweeper-game/lib/constants'
 
 export default Ember.Component.extend({
   classNames: ['grid-cell', 'focusable'],
   classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass'],
   tagName: 'button',
-  attributeBindings: ['_ariaLabel:aria-label', 'isRevealed:disabled'],
+  attributeBindings: [
+    '_ariaLabel:aria-label', 
+    'isRevealed:disabled',
+    '_row:data-row',
+    '_column:data-column'
+  ],
   isRevealed: Ember.computed.alias('cellState.isRevealed'),
   isFlagged: Ember.computed.alias('cellState.isFlagged'),
   hasMine: Ember.computed.alias('cellState.hasMine'),
@@ -67,10 +72,24 @@ export default Ember.Component.extend({
     return label.join(' ');
   }),
 
+  _row: Ember.computed(function () {
+    const cellState = this.get('cellState');
+
+    return cellState.row;
+  }),
+
+  _column: Ember.computed(function () {
+    const cellState = this.get('cellState');
+
+    return cellState.column;
+  }),
+
   notifyCellClick(actionType) {
     const cellState = this.get('cellState');
 
     this.sendAction('gridCellClicked', { cellState, actionType });
+    console.error(document.activeElement);
+    Ember.$(document.activeElement).focus();
   },
 
   // Keyboard user can flag the cell by pressing enter/space-bar and alt key 
@@ -83,5 +102,34 @@ export default Ember.Component.extend({
     this.notifyCellClick(CELL_ACTION_TYPES.FLAG);
 
     event.preventDefault();
+  },
+
+  keyDown(event) {
+    const keyCode = event && event.keyCode;
+    let direction = '';
+
+    switch (keyCode) {
+      case KEY_CODES.ARROW_UP:
+        direction = 'up';
+        break;
+      case KEY_CODES.ARROW_LEFT:
+        direction = 'left';
+        break;
+      case KEY_CODES.ARROW_RIGHT:
+        direction = 'right';
+        break;
+      case KEY_CODES.ARROW_DOWN:
+        direction = 'down';
+        break;
+      default:
+        break;
+    }
+
+    if (direction) {
+      const { row, column } = this.get('cellState');
+
+      this.sendAction('moveByKeyboard', { row, column, direction });
+      event.preventDefault();
+    }
   }
 });

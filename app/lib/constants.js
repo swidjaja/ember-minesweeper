@@ -5,7 +5,7 @@ export const MINES_COUNT = 10;
 export const CELL_ACTION_TYPES = {
   REVEAL: 'reveal',
   FLAG: 'flag'
-}
+};
 
 export const GAME_STATUS = {
   NOT_STARTED: 'not_started',
@@ -13,6 +13,13 @@ export const GAME_STATUS = {
   OUT_OF_TIME: 'out_of_time',
   WIN: 'win',
   LOST: 'lost'
+};
+
+export const KEY_CODES = {
+  ARROW_UP: 38,
+  ARROW_LEFT: 37,
+  ARROW_RIGHT: 39,
+  ARROW_DOWN: 40
 };
 
 // Number of secs before the timer service time-outs
