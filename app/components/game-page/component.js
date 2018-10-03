@@ -71,6 +71,18 @@ export default Ember.Component.extend({
     gameService.reset();
   },
 
+  jumpToLevelSelect() {
+    const levelSelect = this.$('#level-switcher__select');
+
+    levelSelect.focus();
+  },
+
+  jumpToFirstCell() {
+    const firstCell = this.$('.grid-cell[data-row="0"][data-column="0"]');
+
+    firstCell.focus();
+  },
+
   onGridCellClicked(payload) {
     const gameService = this.get('gameService');
 
@@ -79,9 +91,17 @@ export default Ember.Component.extend({
 
   setupGlobalKeyHandler() {
     const globalKeyHandler = (event) => {
-      // alt + s will restart the game
-      if (event.keyCode === 83 && event.altKey) {
-        this.restartGame();
+      if (event.altKey) {
+        // alt + s will restart the game
+        if (event.keyCode === 83) {
+          this.restartGame();
+        // alt + t will jump to level select
+        } else if (event.keyCode === 84) {
+          this.jumpToLevelSelect();
+        // alt + f will jump to first cell
+        } else if (event.keyCode === 70) {
+          this.jumpToFirstCell();
+        }
       }
     }
     this.set('_globalKeyHandler', globalKeyHandler);
