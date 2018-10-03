@@ -11,31 +11,26 @@ export default Ember.Service.extend({
 
   reset() {
     this.set('elapsedTime', 0);
-    this.set('timerActive', false);
     this.set('hasTimedOut', false);
   },
 
   start() {
-    this.set('timerActive', true);
-    this.incElapsedTime();
+    this.set('_runningTimer', this.incElapsedTime());
   },
 
   stop() {
-    this.set('timerActive', false);
+    Ember.run.cancel(this.get('_runningTimer'));
   },
 
   incElapsedTime() {
-    if (this.get('timerActive')) {
-      this.set('elapsedTime', this.get('elapsedTime') + 1);
-
-      if (this.get('elapsedTime') >= TIMER_TIMEOUT) {
-        this.set('hasTimedOut', true);
-        this.stopTimer();
-      } else {
-        Ember.run.later(() => {
-          this.incElapsedTime();
-        }, 1000);
-      }
+    this.set('elapsedTime', this.get('elapsedTime') + 1);
+    if (this.get('elapsedTime') >= TIMER_TIMEOUT) {
+      this.set('hasTimedOut', true);
+      this.stop();
+    } else {
+      return Ember.run.later(() => {
+        this.set('_runningTimer', this.incElapsedTime());
+      }, 1000);
     }
-  },
+  }
 });

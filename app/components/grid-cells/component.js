@@ -18,6 +18,15 @@ export default Ember.Component.extend({
       columnIdx >= 0 && columnIdx < size;
   },
 
+  focusOnSiblingCell(rowIdx, columIdx) {
+    const selector = `.grid-cell[data-row="${rowIdx}"][data-column="${columIdx}"]`;
+    const nextCellToFocus = this.$(selector);
+
+    if (nextCellToFocus.length) {
+      nextCellToFocus.focus();
+    }
+  },
+
   actions: {
     gridCellClicked(payload) {
       this.sendAction('gridCellClicked', payload);
@@ -43,12 +52,7 @@ export default Ember.Component.extend({
           break;
       }
       if (this.isValidCell(newRow, newColumn)) {
-        const selector = `.grid-cell[data-row="${newRow}"][data-column="${newColumn}"]`;
-        const nextCellToFocus = this.$(selector);
-
-        if (nextCellToFocus.length) {
-          nextCellToFocus.focus();
-        }
+        this.focusOnSiblingCell(newRow, newColumn);
       }
     }
   }

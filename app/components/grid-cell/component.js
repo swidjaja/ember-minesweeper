@@ -6,8 +6,7 @@ export default Ember.Component.extend({
   classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass'],
   tagName: 'button',
   attributeBindings: [
-    '_ariaLabel:aria-label', 
-    'isRevealed:disabled',
+    '_ariaLabel:aria-label',
     '_row:data-row',
     '_column:data-column'
   ],
@@ -85,11 +84,13 @@ export default Ember.Component.extend({
   }),
 
   notifyCellClick(actionType) {
+    if (this.get('isRevealed')) {
+      return;
+    }
+    
     const cellState = this.get('cellState');
 
     this.sendAction('gridCellClicked', { cellState, actionType });
-    console.error(document.activeElement);
-    Ember.$(document.activeElement).focus();
   },
 
   // Keyboard user can flag the cell by pressing enter/space-bar and alt key 

@@ -4,6 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import Ember from 'ember';
+import Utils from '../../../lib/utils';
 
 const SELECTORS = {
   resetBtn: '.game-page__reset-btn',
@@ -23,6 +24,7 @@ const constructMockedGameService = (configs = {}) => {
     gameStatus,
     elapsedTime,
     minesCount,
+    gridCells: Utils.generateEmptyGridCells(9),
     reset: () => {},
     updateCellState: () => {}
   };

@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import Ember from 'ember';
 import sinon from 'sinon';
+import { KEY_CODES } from 'minesweeper-game/lib/constants';
 
 const assertIsLostValue = () => {
   const testCaseConfigs = {
@@ -76,5 +77,68 @@ describe('Unit | Component | grid cell', () => {
     const args = sendActionSpy.firstCall.args;
     expect(args[0]).to.equal('gridCellClicked');
     expect(args[1]).to.deep.equal({ cellState: {}, actionType: 'flag'});
+  });
+
+  it('does not send gridCellClicked action if user tries to flag a revealed cell', function () {
+    const component = this.subject({ cellState: { isRevealed: true } });
+    const sendActionSpy = sinon.spy();
+    const mockedEvent = {
+      preventDefault: () => {},
+      altKey: true
+    };
+
+    Ember.set(component, 'sendAction', sendActionSpy);
+
+    component.click(mockedEvent);
+
+    expect(sendActionSpy.calledOnce).to.equal(false);
+  });
+
+  it('does not send gridCellClicked action if user tries to reveal a revealed cell', function () {
+    const component = this.subject({ cellState: { isRevealed: true } });
+    const sendActionSpy = sinon.spy();
+    const mockedEvent = {
+      preventDefault: () => {}
+    };
+
+    Ember.set(component, 'sendAction', sendActionSpy);
+
+    component.click(mockedEvent);
+
+    expect(sendActionSpy.calledOnce).to.equal(false);
+  });
+
+  it('send moveByKeyboard action with correct params when user navigates on cells using keyboard', function () {
+    const component = this.subject({ cellState: { row: 0, column: 0 } });
+    const sendActionSpy = sinon.spy();
+
+    Ember.set(component, 'sendAction', sendActionSpy);
+
+    let mockedEvent = {
+      preventDefault: () => {},
+      keyCode: KEY_CODES.ARROW_UP
+    };
+
+    component.keyDown(mockedEvent);
+    expect(sendActionSpy.calledWith({ row: 0, column: 0, direction: 'up'}));
+    sendActionSpy.reset();
+
+    mockedEvent.keyCode = KEY_CODES.ARROW_LEFT;
+
+    component.keyDown(mockedEvent);
+    expect(sendActionSpy.calledWith({ row: 0, column: 0, direction: 'left'}));
+    sendActionSpy.reset();
+
+    mockedEvent.keyCode = KEY_CODES.ARROW_RIGHT;
+
+    component.keyDown(mockedEvent);
+    expect(sendActionSpy.calledWith({ row: 0, column: 0, direction: 'right'}));
+    sendActionSpy.reset();
+
+    mockedEvent.keyCode = KEY_CODES.ARROW_DOWN;
+
+    component.keyDown(mockedEvent);
+    expect(sendActionSpy.calledWith({ row: 0, column: 0, direction: 'down'}));
+    sendActionSpy.reset();
   });
 });

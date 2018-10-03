@@ -3,6 +3,7 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import Ember from 'ember';
 import sinon from 'sinon';
+import Utils from '../../../lib/utils';
 
 const gameServiceResetSpy = sinon.spy();
 const gameServiceUpdateCellSpy = sinon.spy();
@@ -21,7 +22,8 @@ describe('Unit | Component | game-page', () => {
     gameService = Ember.Service.extend({
       reset: gameServiceResetSpy,
       updateCellState: gameServiceUpdateCellSpy,
-      gameStatus: 'not_started'
+      gameStatus: 'not_started',
+      gridCells: Utils.generateEmptyGridCells(9)
     });
     this.register('service:game-service', gameService);
   });
@@ -72,16 +74,36 @@ describe('Unit | Component | game-page', () => {
   it('calls gameService reset when player restart', function () {
     const component = this.subject();
 
-    component.restartGame();
-
+    component.send('restartGame');
     expect(gameServiceResetSpy.calledOnce).to.be.true;
   });
 
-  it('calls gameService reset when player clicks on cell', function () {
+  it('calls gameService updateCell when player clicks on cell', function () {
     const component = this.subject();
 
-    component.onGridCellClicked({});
-
+    component.send('gridCellClicked', {});
     expect(gameServiceUpdateCellSpy.calledOnce).to.be.true;
+  });
+
+  it('updates the restart button label with correct text', function () {
+    const setSpy = sinon.spy();
+    const component = this.subject({});
+    component.set = setSpy;
+
+    component.updateRestartButtonLabel('test');
+    expect(setSpy.calledWith('restartButtonLabel', 'test Click to restart the game'))
+      .to.equal(true);
+  });
+
+  it('calls function to restart game when player clicks alt + s key', function () {
+    this.render();
+
+    const evt = Ember.$.Event('keydown');
+    evt.which = 83;
+    evt.altKey = true;
+
+    Ember.$(document).trigger(evt);
+
+    expect(gameServiceResetSpy.calledOnce).to.be.true;
   });
 });
