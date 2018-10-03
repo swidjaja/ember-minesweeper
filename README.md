@@ -26,8 +26,9 @@ I have attempted to make this application as accessible as possible.
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/)
+* [Node.js](https://nodejs.org/) (I use v6.11.1)
+* [Ember CLI](https://ember-cli.com/) (I use v2.14.2)
+* [Yarn](https://yarnpkg.com) (I use v1.3.2)
 
 ## Installation
 * `git clone <repository-url>` this repository
