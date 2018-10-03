@@ -2,17 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['grid-cells'],
-
-  init(...args) {
-    this._super(args);
-
-    const gridCells = this.get('gridCells');
-
-    this._size = gridCells.length;
-  },
-
   isValidCell(rowIdx, columnIdx) {
-    const size = this.get('_size');
+    const size = this.get('size');
 
     return rowIdx >= 0 && rowIdx < size && 
       columnIdx >= 0 && columnIdx < size;

@@ -12,7 +12,8 @@ describe('Unit | Component | grid cells', () => {
 
   it('returns correct result on checking cell validity on all cases', function () {
     const component = this.subject({
-      gridCells: Utils.generateEmptyGridCells(9)
+      gridCells: Utils.generateEmptyGridCells(9),
+      size: 9
     });
 
     expect(component.isValidCell(8, 8)).to.equal(true);
@@ -24,6 +25,7 @@ describe('Unit | Component | grid cells', () => {
   it('focuses on sibling cell when player is using keyboard to navigate to valid sibling cell', function () {
     const component = this.subject({
       gridCells: Utils.generateEmptyGridCells(3),
+      size: 3
     });
     const focusOnSiblingCellSpy = sinon.spy();
 
@@ -118,7 +120,8 @@ describe('Unit | Component | grid cells', () => {
   it('send gridCellClicked action with correct params', function () {
     const payload = { cellState: {}, actionType: 'flag' };
     const component = this.subject({
-      gridCells: Utils.generateEmptyGridCells(3)
+      gridCells: Utils.generateEmptyGridCells(3),
+      size: 3
     });
     const sendActionSpy = sinon.spy();
 

@@ -17,21 +17,24 @@ describe('Integration | Component | grid cells', function() {
   it('renders', function() {
     const gridCells = Utils.generateEmptyGridCells(3);
     this.set('gridCells', gridCells);
-    this.render(hbs`{{grid-cells gridCells=gridCells}}`);
+    this.set('size', 3);
+    this.render(hbs`{{grid-cells gridCells=gridCells size=size}}`);
     expect(this.$()).to.have.length(1);
   });
 
   it('renders correct number of columns', function () {
     const gridCells = Utils.generateEmptyGridCells(3);
     this.set('gridCells', gridCells);
-    this.render(hbs`{{grid-cells gridCells=gridCells}}`);
+    this.set('size', 3);
+    this.render(hbs`{{grid-cells gridCells=gridCells size=size}}`);
     expect(this.$(SELECTORS.gridCellColumn)).to.have.length(3);
   });
 
   it('renders correct number of cells', function () {
     const gridCells = Utils.generateEmptyGridCells(3);
     this.set('gridCells', gridCells);
-    this.render(hbs`{{grid-cells gridCells=gridCells}}`);
+    this.set('size', 3);
+    this.render(hbs`{{grid-cells gridCells=gridCells size=size}}`);
     expect(this.$(SELECTORS.gridCell)).to.have.length(9);
   });
 });
