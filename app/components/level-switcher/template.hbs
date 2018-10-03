@@ -1,0 +1,9 @@
+<h2><label for="level-switcher__select">Select game difficulty</label></h2>
+<select name="levelSelections" id="level-switcher__select">
+  {{#each levelSelections as | levelSelection | }}
+    <option value="{{levelSelection.value}}">{{levelSelection.text}}</option>
+  {{/each}}
+</select>
+<p>
+  <button {{action 'selectLevel'}} class="level-switcher__btn">Play this level</button>
+</p>

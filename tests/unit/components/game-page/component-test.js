@@ -14,7 +14,8 @@ describe('Unit | Component | game-page', () => {
     unit: true,
     needs: [
       'service:game-service',
-      'component:grid-cells'
+      'component:grid-cells',
+      'component:level-switcher'
     ]
   });
 

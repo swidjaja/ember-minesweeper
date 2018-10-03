@@ -15,12 +15,16 @@
     <div class="game-page__content--body">
       {{grid-cells
         gameStatus=gameStatus
+        gameLevel=gameLevel
         gridCells=gridCells
         gridCellClicked='gridCellClicked'}}
     </div>
   </div>
 
   <div class="game-page__content--right">
+    <section class="game-page__level-switcher">
+      {{level-switcher switchLevel='switchLevel'}}
+    </section>
     <section class="game-page__instruction game-page__instruction--mouse">
       <h2>Mouse users</h2>
       <p>Left click - reveal the cell</p>

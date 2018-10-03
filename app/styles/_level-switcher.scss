@@ -1,0 +1,15 @@
+.level-switcher {
+  &__btn {
+    padding: 0 10px;
+    height: 32px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin: 0 2px;
+    border:2px solid gray;
+    cursor: pointer;
+  }
+
+  #level-switcher__select {
+    height: 30px;
+  }
+}

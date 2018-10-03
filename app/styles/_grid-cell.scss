@@ -51,4 +51,16 @@
   border:2px solid gray;
   font-size: 32px;
   text-align: center;
+
+  &--mSize {
+    width: 36px;
+    height: 36px;
+    font-size: 26px;
+  }
+
+  &--sSize {
+    width: 32px;
+    height: 32px;
+    font-size: 22px;
+  }
 }

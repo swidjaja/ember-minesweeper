@@ -3,14 +3,17 @@ import {
   CELL_ACTION_TYPES,
   CELL_GRIDS_SIZE,
   MINES_COUNT,
-  GAME_STATUS
+  GAME_STATUS,
+  GAME_DIFFICULTY_CONFIGS
 } from 'minesweeper-game/lib/constants';
 
 export default Ember.Service.extend({
   timerService: Ember.inject.service(),
   elapsedTime: Ember.computed.oneWay('timerService.elapsedTime'),
   hasTimedOut: Ember.computed.oneWay('timerService.hasTimedOut'),
+  gridSize: CELL_GRIDS_SIZE,
   minesCount: MINES_COUNT,
+  gameLevel: 'EASY',
 
   timeOutObserver: Ember.observer('hasTimedOut', function () {
     if (this.get('hasTimedOut')) {
@@ -34,6 +37,16 @@ export default Ember.Service.extend({
     this.reset();
   },
 
+  switchLevel(level) {
+    const { mines, gridSize } = GAME_DIFFICULTY_CONFIGS[level];
+
+    this.set('gameLevel', level);
+    this.set('minesCount', mines);
+    this.set('gridSize', gridSize);
+
+    this.reset();
+  },
+
   /**
    * Reset the minesweeper game state. This will do the following
    * 1. Set the game status to in progress
@@ -45,10 +58,12 @@ export default Ember.Service.extend({
    */
   reset() {
     const timerService = this.get('timerService');
+    const gridSize = this.get('gridSize');
+    const minesCount = this.get('minesCount');
 
     timerService.reset();
     this.set('gameStatus', GAME_STATUS.NOT_STARTED);
-    this.remainingUnrevealedCells = (CELL_GRIDS_SIZE * CELL_GRIDS_SIZE) - MINES_COUNT;
+    this.remainingUnrevealedCells = (gridSize * gridSize) - minesCount;
     this.initializeGridCells();
     this.placeMines();
     this.setCellsNeighborMinesCount();
@@ -73,10 +88,12 @@ export default Ember.Service.extend({
    * neighborMineCellCount - the number of neighbors of a given cell that has mines
    */
   initializeGridCells() {
+    const gridSize = this.get('gridSize');
+
     this.set('gridCells', []);
-    for (let idx = 0; idx < CELL_GRIDS_SIZE; ++idx) {
+    for (let idx = 0; idx < gridSize; ++idx) {
       const row = [];
-      for (let idy = 0; idy < CELL_GRIDS_SIZE; ++idy) {
+      for (let idy = 0; idy < gridSize; ++idy) {
         row.push({
           row: idx,
           column: idy,
@@ -147,11 +164,12 @@ export default Ember.Service.extend({
   // Place mine on each cell
   placeMines() {
     const gridCells = this.get('gridCells');
+    const gridSize = this.get('gridSize');
     let minesCount = this.get('minesCount');
 
     while (minesCount > 0) {
-      const row = Math.floor(Math.random() * CELL_GRIDS_SIZE);
-      const column = Math.floor(Math.random() * CELL_GRIDS_SIZE);
+      const row = Math.floor(Math.random() * gridSize);
+      const column = Math.floor(Math.random() * gridSize);
       const gridCell = gridCells[row][column];
 
       if (!gridCell.hasMine) {
@@ -169,8 +187,10 @@ export default Ember.Service.extend({
    * @return {Boolean} true if cell is valid
    */
   isValidCell(rowIdx, columnIdx) {
-    return rowIdx >= 0 && rowIdx < CELL_GRIDS_SIZE && 
-      columnIdx >= 0 && columnIdx < CELL_GRIDS_SIZE;
+    const gridSize = this.get('gridSize');
+
+    return rowIdx >= 0 && rowIdx < gridSize && 
+      columnIdx >= 0 && columnIdx < gridSize;
   },
 
   /**
@@ -213,9 +233,10 @@ export default Ember.Service.extend({
   // Set the neighbor mines count for each cell that does not have mine
   setCellsNeighborMinesCount() {
     const gridCells = this.get('gridCells');
+    const gridSize = this.get('gridSize');
 
-    for (let idx = 0; idx < CELL_GRIDS_SIZE; ++idx) {
-      for (let idy = 0; idy < CELL_GRIDS_SIZE; ++idy) {
+    for (let idx = 0; idx < gridSize; ++idx) {
+      for (let idy = 0; idy < gridSize; ++idy) {
         const gridCell = gridCells[idx][idy];
 
         if (!gridCell.hasMine) {

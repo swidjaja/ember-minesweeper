@@ -3,7 +3,7 @@ import { CELL_ACTION_TYPES, GAME_STATUS, KEY_CODES } from 'minesweeper-game/lib/
 
 export default Ember.Component.extend({
   classNames: ['grid-cell', 'focusable'],
-  classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass'],
+  classNameBindings: ['gridCellRevealStateClass', 'neighborMineCountClass', 'gridCellSize'],
   tagName: 'button',
   attributeBindings: [
     '_ariaLabel:aria-label',
@@ -20,6 +20,17 @@ export default Ember.Component.extend({
 
     return gameStatus === GAME_STATUS.LOST || 
       gameStatus === GAME_STATUS.OUT_OF_TIME;
+  }),
+
+  gridCellSize: Ember.computed('gameLevel', function () {
+    const gameLevel = this.get('gameLevel');
+
+    if (gameLevel === 'MEDIUM') {
+      return 'grid-cell--mSize';
+    } else if (gameLevel === 'HARD') {
+      return 'grid-cell--sSize';
+    }
+    return '';
   }),
 
   gridCellRevealStateClass: Ember.computed('isLost', 'isRevealed', 'isFlagged', function () {

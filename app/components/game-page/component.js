@@ -1,11 +1,16 @@
 import Ember from 'ember';
-import { GAME_STATUS, DEFAULT_RESTART_BTN_LABEL } from 'minesweeper-game/lib/constants';
+import { 
+  GAME_STATUS,
+  DEFAULT_RESTART_BTN_LABEL,
+  GAME_DIFFICULTY_CONFIGS
+} from 'minesweeper-game/lib/constants';
 
 export default Ember.Component.extend({
   classNames: ['game-page'],
   gameService: Ember.inject.service(),
   gameStatus: Ember.computed.oneWay('gameService.gameStatus'),
   gridCells: Ember.computed.oneWay('gameService.gridCells'),
+  gameLevel: Ember.computed.oneWay('gameService.gameLevel'),
   elapsedTime: Ember.computed.oneWay('gameService.elapsedTime'),
   minesCount: Ember.computed.oneWay('gameService.minesCount'),
   restartButtonLabel: DEFAULT_RESTART_BTN_LABEL,
@@ -103,6 +108,15 @@ export default Ember.Component.extend({
 
     restartGame() {
       this.restartGame();
+    },
+
+    switchLevel(level) {
+      const gameService = this.get('gameService');
+      const configs = GAME_DIFFICULTY_CONFIGS[level];
+
+      if (configs) {
+        gameService.switchLevel(level);
+      }
     }
   }
 });

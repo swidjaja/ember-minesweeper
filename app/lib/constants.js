@@ -15,6 +15,14 @@ export const GAME_STATUS = {
   LOST: 'lost'
 };
 
+export const GAME_DIFFICULTY = ['EASY', 'MEDIUM', 'HARD'];
+
+export const GAME_DIFFICULTY_CONFIGS = {
+  EASY: { gridSize: 9, mines: 10 },
+  MEDIUM: { gridSize: 15, mines: 30 },
+  HARD: { gridSize: 20, mines: 50 }
+}
+
 export const KEY_CODES = {
   ARROW_UP: 38,
   ARROW_LEFT: 37,
