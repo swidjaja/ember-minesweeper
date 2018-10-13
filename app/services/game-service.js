@@ -146,15 +146,37 @@ export default Ember.Service.extend({
         this.set('gameStatus', GAME_STATUS.WIN);
       } else if (!gridCell.neighborMineCellCount) {
         const validNeighborCells = this.getValidNeighborCells(gridCell.row, gridCell.column);
+        
+        // Iterative version (BFS)
+        let queue = [].concat(validNeighborCells);
+        const gridCells = this.get('gridCells');
 
-        validNeighborCells.forEach((validNeighborCell) => {
-          const { rowIdx, columnIdx } = validNeighborCell;
-          const gridCells = this.get('gridCells');
-          const gridCell = gridCells[rowIdx][columnIdx];
-          if (!gridCell.hasMine && !gridCell.isRevealed) {
-            this.revealCell(gridCell);
+        while (queue.length !== 0) {
+          const gridCellPosition = queue.shift();
+          const { rowIdx, columnIdx } = gridCellPosition;
+          const thisGridCell = gridCells[rowIdx][columnIdx];
+          const { hasMine, isRevealed, neighborMineCellCount } = thisGridCell;
+
+          if (!hasMine && !isRevealed) {
+            Ember.set(thisGridCell, 'isRevealed', true);
+            this.set('remainingUnrevealedCells', this.remainingUnrevealedCells - 1);
+
+            if (!neighborMineCellCount) {
+              const itemValidNeigborCells = this.getValidNeighborCells(rowIdx, columnIdx);
+              queue = queue.concat(itemValidNeigborCells);
+            }
           }
-        });
+        }
+
+        // Recursive version
+        // validNeighborCells.forEach((validNeighborCell) => {
+        //   const { rowIdx, columnIdx } = validNeighborCell;
+        //   const gridCells = this.get('gridCells');
+        //   const gridCell = gridCells[rowIdx][columnIdx];
+        //   if (!gridCell.hasMine && !gridCell.isRevealed) {
+        //     this.revealCell(gridCell);
+        //   }
+        // });
       }
     } else {
       this.set('gameStatus', GAME_STATUS.LOST);

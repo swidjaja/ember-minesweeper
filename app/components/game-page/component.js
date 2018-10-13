@@ -2,7 +2,8 @@ import Ember from 'ember';
 import { 
   GAME_STATUS,
   DEFAULT_RESTART_BTN_LABEL,
-  GAME_DIFFICULTY_CONFIGS
+  GAME_DIFFICULTY_CONFIGS,
+  KEY_CODES
 } from 'minesweeper-game/lib/constants';
 
 export default Ember.Component.extend({
@@ -93,13 +94,13 @@ export default Ember.Component.extend({
     const globalKeyHandler = (event) => {
       if (event.altKey) {
         // alt + s will restart the game
-        if (event.keyCode === 83) {
+        if (event.keyCode === KEY_CODES.CHARACTER_S) {
           this.restartGame();
         // alt + t will jump to level select
-        } else if (event.keyCode === 84) {
+        } else if (event.keyCode === KEY_CODES.CHARACTER_T) {
           this.jumpToLevelSelect();
         // alt + f will jump to first cell
-        } else if (event.keyCode === 70) {
+        } else if (event.keyCode === KEY_CODES.CHARACTER_F) {
           this.jumpToFirstCell();
         }
       }

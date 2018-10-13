@@ -27,7 +27,17 @@ export const KEY_CODES = {
   ARROW_UP: 38,
   ARROW_LEFT: 37,
   ARROW_RIGHT: 39,
-  ARROW_DOWN: 40
+  ARROW_DOWN: 40,
+  CHARACTER_S: 83,
+  CHARACTER_T: 84,
+  CHARACTER_F: 70
+};
+
+export const KEY_NAMES = {
+  ARROW_UP: 'ArrowUp',
+  ARROW_LEFT: 'ArrowLeft',
+  ARROW_RIGHT: 'ArrowRight',
+  ARROW_DOWN: 'ArrowDown'
 };
 
 // Number of secs before the timer service time-outs
