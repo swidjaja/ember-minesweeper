@@ -7,7 +7,6 @@ import {
   GAME_DIFFICULTY_CONFIGS
 } from 'minesweeper-game/lib/constants';
 
-// Game service
 export default Ember.Service.extend({
   timerService: Ember.inject.service(),
   elapsedTime: Ember.computed.oneWay('timerService.elapsedTime'),
