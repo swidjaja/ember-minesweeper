@@ -12,11 +12,11 @@
   "scripts": {
     "build": "ember build",
     "start": "ember server",
-    "test": "ember test"
+    "test": "ember test",
+    "deploy": "ember github-pages:commit"
   },
   "dependencies": {
     "ember-cli-babel": "^6.3.0",
-    "ember-cli-github-pages": "^0.2.2",
     "ember-cli-htmlbars": "^2.0.1",
     "ember-cli-sass": "7.1.7",
     "ember-truth-helpers": "2.1.0"
